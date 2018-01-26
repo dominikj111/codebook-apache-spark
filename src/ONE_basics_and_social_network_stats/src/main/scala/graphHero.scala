@@ -142,7 +142,7 @@ object graphHero extends Logging {
 		(connections, minDistance, darkestColor).asInstanceOf[BFSData]
 	}
 
-	def mainx(args: Array[String]) {
+	def main(args: Array[String]) {
 
 		import RDDImplicits.RichRDDT2, RDDImplicits.RichRDDT1, StringImplicits._, FlowImplicits._
 

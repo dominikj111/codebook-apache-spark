@@ -9,7 +9,7 @@ object AverageCounting extends Logging {
 
     val logout = Logger("com.sundogsoftware.spark.AverageCounting")
 
-    def main(args: Array[String]) {
+    def mainx(args: Array[String]) {
 
         val sc = new SparkContext("local[*]", "AverageCounting")
         val lines = sc.textFile("../../SparkScala/fakefriends.csv")

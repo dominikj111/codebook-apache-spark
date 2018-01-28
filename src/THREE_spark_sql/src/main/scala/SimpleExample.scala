@@ -8,11 +8,11 @@ import RDDImplicits._
 
 import grizzled.slf4j._
 
-// case class Person(ID: Int, name: String, age: Int, numFriends: Int)
+case class Person(ID: Int, name: String, age: Int, numFriends: Int)
 
-object Main extends App with Logging {
+object SimpleExample extends /*App with*/ Logging {
 
-	val logout = Logger("com.sundogsoftware.spark.Main")
+	val logout = Logger("com.sundogsoftware.spark.SimpleExample")
 
 	val spark = SparkSession
 		.builder

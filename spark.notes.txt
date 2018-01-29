@@ -1,3 +1,9 @@
+////////////////
+// SPARK TEST //
+////////////////
+
+// SPARK TEST: counting of PI number
+spark-submit --class org.apache.spark.examples.SparkPi --master local $SPARK_HOME/examples/jars/spark-examples_2.11-2.2.1.jar 10
 
 ///////////////
 // utilities //

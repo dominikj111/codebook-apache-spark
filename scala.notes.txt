@@ -1,0 +1,86 @@
+List(4, 6, 7, 8, 9, 13, 14).toStream take 3
+val v = List(4, 6, 7, 8, 9, 13, 14).toStream
+v take 3
+(v take 3) take 2
+(v take 3) take 3
+(v take 3) take 1
+(v take 3).foreach { println _ }
+(v take 3).toList
+
+val grades2 = Map("Kim" -> (90,20), "Al" -> (85,23), "Melissa" -> (95,0), "Emily" -> (91,-3), "Hannah" -> (92,34))
+grades2.toSeq
+res5
+res5.sortBy(_._1)
+res5.sortBy(_._2._1)
+res5.sortBy(_._2._2)
+
+val sc = SparkContext.getOrCreate
+
+classOf[String].getCanonicalName
+"test".getClass.getCanonicalName
+
+List(1, 2, 3, 4, 5).flatMap(it => if (it % 2 == 0) Some(it) else None)
+List(1, 2, 3, 4, 5).flatMap(it => if (it % 2 == 0) it else None)
+
+val r: (Boolean, String, Unit) = (true, "123", Nothing) -> 2 x many x 1 types
+
+val r: (Boolean, String, Nothing) = ... -> 2 x many x 0 types
+
+(0 /: List(1,2,3,4,5,6))
+(0 /: List(1,2,3,4,5,6)){(t, c) => t - c}
+(0 /: List(1,2,3)){(t, c) => t - c}
+(1 /: List(1,2,3)){(t, c) => t - c}
+(2 /: List(1,2,3)){(t, c) => t - c}
+(3 /: List(1,2,3)){(t, c) => t - c}
+(4 /: List(1,2,3)){(t, c) => t - c}
+(5 /: List(1,2,3)){(t, c) => t - c}
+(6 /: List(1,2,3)){(t, c) => t - c}
+(6 /: List()){(t, c) => t - c}
+(6 /: List(1,2,3)){_-_}
+(0 /: List(1,2,3)){_ - _}
+(0 /: List(1,2,3)){_ + _}
+
+List(5,4,3,2,1).reduceRight((x, y) => x - y)
+List(2,1).reduceRight((x, y) => x - y)
+List(1,2).reduceRight((x, y) => x - y)
+List(1,2,3).reduceRight((x, y) => x - y)
+List(1,2,3,4).reduceRight((x, y) => x - y)
+List(1,2,3,4,5).reduceRight((x, y) => x - y)
+List(1,2,3,4,5,6).reduceRight((x, y) => x - y)
+List(1,2,3,4,5,6,7).reduceRight((x, y) => x - y)
+List(1,2,3,4,5,6,7,8).reduceRight((x, y) => x - y)
+List(1).reduceRight((x, y) => x - y)
+List(1,2,3,4,5,6,7,8).reduceLeft((x, y) => x - y)
+List(1,2,3,4,5,6,7).reduceLeft((x, y) => x - y)
+List(1,2,3,4,5,6).reduceLeft((x, y) => x - y)
+List(1,2,3,4,5).reduceLeft((x, y) => x - y)
+List(1,2,3,4).reduceLeft((x, y) => x - y)
+List(7,8).reduceRight((x, y) => x - y)
+List(6,7,8).reduceRight((x, y) => x - y)
+List(5,6,7,8).reduceRight((x, y) => x - y)
+List(1,2,3,4,5,6,7,8).reduceRight((x, y) => x - y)
+List(5,4,3,2,1).reduceRight((x, y) => x - y)
+List(5,4,3,2,1).reverse.reduceRight((x, y) => x - y)
+List(5,4,3,2,1).reverse.reduceLeft((x, y) => x - y)
+List(5,4,3,2,1).reverse.reduce((x, y) => x - y)
+List(5,4,3,2,1).reduce((x, y) => x - y)
+List(5,4,3,2,1).reverse.reduce((x, y) => x - y)
+List(5,4,3,2,1).reduceLeft((x, y) => x - y)
+List(5,4,3,2,1).reverse.reduceLeft((x, y) => x - y)
+(1,2,3)
+(1,2,3).list
+(1,2,3).toList
+(1,2,3).size
+List(List(1, 2, 3), List(4, 5, 6), List(7, 8, 9)).transpose
+Right(29)
+Right('d')
+Left(29)
+Left(29)._1
+Left(29)[1]
+Left(29).toString
+Right(29,'rest')
+Right(29)
+Right(29)('')
+Right(29).joinLeft
+Right(29)
+

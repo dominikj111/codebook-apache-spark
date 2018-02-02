@@ -8,7 +8,7 @@ import RDDImplicits._, FlowImplicits._, LocalSparkUtils._
 
 import grizzled.slf4j._
 
-import scala.math.sqrt
+import scala.math.{sqrt,Pi}
 
 case class Movie(userID: Int, movieID: Int, movieRating: Int)
 
@@ -82,11 +82,22 @@ object Main extends App with Logging {
 
     val aaMul: Int => Int = a => a * a
     val abMul: (Int, Int) => Int = (a, b) => a * b
-    val score: (Int, Int, Int) => Double = (sum_xx, sum_yy, sum_xy) => {
-        // val denominator = sqrt(sum_xx) * sqrt(sum_yy)
-        // if(denominator == 0) denominator else sum_xy / denominator
-        (sqrt(sum_xx) * sqrt(sum_yy)).processAndGetResult[Double]( r => if(r == 0) r else sum_xy / r)
+    val score: (Int, Int, Int) => Double = (xx, yy, xy) => {
+        // val denominator = sqrt(xx) * sqrt(yy)
+        // if(denominator == 0) denominator else xy / denominator
+        (xx + yy).processAndGetResult[Double]( rr => if(rr == 0) rr else (Pi * rr + sqrt(xx)))
     }
+
+    // TESTED !
+    // val eval = (a: Int, b: Int) => { val rr = a * a + b * b; if(rr == 0) rr else (((scala.math.Pi * rr) + a)) }
+
+    // interest : todo : save to ...
+    // { for (i <- 0 to 1000) yield for (j <- 0 to 1000) yield (i,j,eval(i,j)) }
+    //     .flatMap(a => a).sortWith(_._3 < _._3).groupBy(a => a._3).map(a => (a._1, a._2.size)).filter(a => a._2 != 1)
+
+    // { for (i <- 1 to 5) yield for (j <- 1 to 5) yield (i,j,eval(i,j)) }
+    //     .flatMap(a => a).sortWith(_._3 < _._3).foreach(a => println(f"[${a._1}:${a._2}] ${a._3}%1.3f"))
+
 
     val aaMul_udf = udf[Int,Int](aaMul)
     val abMul_udf = udf[Int,Int,Int](abMul)
@@ -95,18 +106,24 @@ object Main extends App with Logging {
     val restructuredSchema = joinedSchema.select(
             $"ms1.movieID".alias("movieid1"),
             $"ms2.movieID".alias("movieid2"),
-            $"ms1.movieRating".alias("ratx1"),
-            $"ms2.movieRating".alias("raty2")
+            $"ms1.movieRating".alias("x"),
+            $"ms2.movieRating".alias("y")
         )
 
-        .withColumn("xx", aaMul_udf('ratx1))
-        .withColumn("yy", aaMul_udf('raty2))
-        .withColumn("xy", abMul_udf('ratx1,'raty2))
+        .withColumn("xx", aaMul_udf('x))
+        .withColumn("yy", aaMul_udf('y))
+        .withColumn("xy", abMul_udf('x,'y))
 
-        .groupBy("movieid1","movieid2").agg(sum("xx"),sum("yy"),sum("xy"),count(lit(1)).alias("numPairs"))
+        .groupBy("movieid1","movieid2").agg(sum("xx").alias("sumXX"),sum("yy").alias("sumYY"),sum("xy").alias("sumXY"),count("*").alias("count2"))
 
-        .withColumn("score", score_udf('xx,'yy,'xy))
+        .withColumn("score", score_udf('sumXX,'sumYY,'sumXY))
 
+        .where($"score" < 1000)
+
+        // .groupBy("x","y", "score").agg(count(lit(1)).alias("groupCount"))
+
+
+    // restructuredSchema.filter($"x" === 4 && $"y" === 4).show
     restructuredSchema.show
 
     // df.join(df2, df.col("key") === df2.col("key")).show
